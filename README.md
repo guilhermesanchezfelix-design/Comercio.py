@@ -1,1 +1,3 @@
-# Comercio.py
+Willian Bryan
+Lucas Eduardo
+Guilherme Sanchez
