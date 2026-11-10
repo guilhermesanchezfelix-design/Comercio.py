@@ -35,3 +35,16 @@ for produto in produtos:
     print("Preco: R$", produto["preco"])
     print("Quantidade:", produto["quantidade"])
     print("------------------------------")
+
+# Etapa 2 - Matriz 2d (Willian Bryan)
+matriz_estoque = [
+    ["Perifericos", "Teclado", "Mouse"],
+    ["Monitores", "Monitor Samsung", "Vazio"],
+    ["Audio", "Headset HyperX", "Vazio"],
+    ["Acessorios", "Mousepad", "Vazio"]
+]
+
+print("===== ORGANIZACAO DO ESTOQUE =====")
+
+for setor in matriz_estoque:
+    print(setor)
