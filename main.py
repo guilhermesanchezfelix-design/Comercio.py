@@ -48,3 +48,43 @@ print("===== ORGANIZACAO DO ESTOQUE =====")
 for setor in matriz_estoque:
     print(setor)
 
+def listar_produtos():
+    print("\n===== PRODUTOS =====")
+
+    for produto in produtos:
+        print("Nome:", produto["nome"])
+        print("Preco:", produto["preco"])
+        print("Quantidade:", produto["quantidade"])
+        print("-------------------")
+
+
+def mostrar_matriz():
+    print("\n===== MATRIZ DO ESTOQUE =====")
+
+    for setor in matriz_estoque:
+        print(setor)
+
+
+while True:
+    print("\n===== ELETROMAX =====")
+    print("1 - Listar produtos")
+    print("2 - Mostrar matriz")
+    print("3 - Sair")
+
+    opcao = input("Escolha uma opcao: ")
+
+    if opcao == "":
+        print("Digite uma opcao!")
+
+    elif opcao == "1":
+        listar_produtos()
+
+    elif opcao == "2":
+        mostrar_matriz()
+
+    elif opcao == "3":
+        print("Saindo do sistema...")
+        break
+
+    else:
+        print("Opcao invalida!")
