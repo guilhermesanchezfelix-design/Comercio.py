@@ -36,6 +36,12 @@ for produto in produtos:
     print("Quantidade:", produto["quantidade"])
     print("------------------------------")
 
+# ==========================================
+# ETAPA 2 - MATRIZ DO ESTOQUE
+# RESPONSAVEL: WILIAN
+# Organizacao dos produtos por setores
+# ==========================================
+
 matriz_estoque = [
     ["Perifericos", "Teclado", "Mouse"],
     ["Monitores", "Monitor Samsung", "Vazio"],
@@ -110,7 +116,12 @@ def mostrar_matriz():
 
     for setor in matriz_estoque:
         print(setor)
-
+        
+# ==========================================
+# ETAPA 3 - MENU PRINCIPAL
+# RESPONSAVEL: LUCAS EDUARDO
+# Navegacao e opcoes do sistema
+# ==========================================
 
 while True:
     print("\n===== ELETROMAX =====")
