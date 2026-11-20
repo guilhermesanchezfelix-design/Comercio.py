@@ -13,13 +13,7 @@ empresa = {
 }
 
 # Produtos da loja
-produtos = [
-    {"nome": "Teclado Logitech", "preco": 150.00, "quantidade": 10},
-    {"nome": "Mouse Logitech", "preco": 100.00, "quantidade": 15},
-    {"nome": "Monitor Samsung", "preco": 300.00, "quantidade": 8},
-    {"nome": "Headset HyperX", "preco": 200.00, "quantidade": 12},
-    {"nome": "Mousepad Logitech", "preco": 50.00, "quantidade": 20}
-]
+#Nota: as informações dos produtos cadastrados se encontram no arquivo "dados.csv"
 
 # Exibindo os dados da empresa
 print("===== DADOS DA EMPRESA =====")
@@ -38,7 +32,7 @@ for produto in produtos:
 
 # ==========================================
 # ETAPA 2 - MATRIZ DO ESTOQUE
-# RESPONSAVEL: WILIAN
+# RESPONSAVEL: WILLIAN BRYAN
 # Organizacao dos produtos por setores
 # ==========================================
 
