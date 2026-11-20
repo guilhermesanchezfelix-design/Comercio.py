@@ -69,7 +69,7 @@ def listar_produtos_alteraveis(produtos_csv, apenas_com_estoque=False):
         if not apenas_com_estoque or produto["quantidade"] > 0
     ]
 
-    print("\n===== PRODUTOS DISPONIVEIS =====")
+    print("\n===== PRODUTOS DISPONÍVEIS =====")
     for produto in produtos_alteraveis:
         print(produto["nome"], "- Quantidade:", produto["quantidade"])
 
@@ -98,7 +98,7 @@ def registrar_venda():
             break
 
     if produto_encontrado is None:
-        print("Erro: produto nao encontrado. Digite um nome de produto valido.")
+        print("Erro: produto não encontrado. Digite um nome de produto válido.")
         return
 
     try:
@@ -106,7 +106,7 @@ def registrar_venda():
         if quantidade_vendida <= 0:
             raise ValueError
     except ValueError:
-        print("Erro: digite uma quantidade vendida valida.")
+        print("Erro: digite uma quantidade vendida válida.")
         return
 
     if quantidade_vendida > produto_encontrado["quantidade"]:
@@ -127,7 +127,7 @@ def adicionar_estoque():
     produtos_csv = ler_produtos_csv()
     produtos_alteraveis = listar_produtos_alteraveis(produtos_csv)
     if not produtos_alteraveis:
-        print("Nao ha produtos cadastrados para adicionar estoque.")
+        print("Não há produtos cadastrados para adicionar estoque.")
         return
 
     nome = input("Digite o nome do produto: ").strip()
@@ -139,7 +139,7 @@ def adicionar_estoque():
             break
 
     if produto_encontrado is None:
-        print("Erro: produto nao encontrado. Digite um nome de produto valido.")
+        print("Erro: produto não encontrado. Digite um nome de produto válido.")
         return
 
     try:
@@ -174,21 +174,21 @@ def mostrar_painel_consolidado():
     valor_total = 0
 
     print("\nPRODUTOS EM ESTOQUE")
-    print("Produto | Quantidade | Preco unitario | Valor em estoque")
+    print("Produto | Quantidade | Preço unitário | Valor em estoque")
 
     for produto in produtos_csv:
         # Soma o valor de cada produto (preco unitario x quantidade).
-        valor_produto = produto["quantidade"] * produto["preco"]
+        valor_produto = produto["quantidade"] * produto["preço"]
         valor_total += valor_produto
         print(
             produto["nome"], "|",
             produto["quantidade"], "| R$",
-            produto["preco"], "| R$",
+            produto["preço"], "| R$",
             valor_produto
         )
 
     print("\nValor total do estoque: R$", valor_total)
-    print("\nORGANIZACAO DO ESTOQUE")
+    print("\nORGANIZAÇÃO DO ESTOQUE")
     # Exibe a matriz de organizacao cadastrada anteriormente.
     for setor in matriz_estoque:
         print(setor)
@@ -203,7 +203,7 @@ def mostrar_matriz():
 # ==========================================
 # ETAPA 3 - MENU PRINCIPAL
 # RESPONSAVEL: LUCAS EDUARDO
-# Navegacao e opcoes do sistema
+# Navegação e opções do sistema
 # ==========================================
 
 while True:
@@ -214,10 +214,10 @@ while True:
     print("4 - Adicionar quantidade ao estoque")
     print("5 - Sair")
 
-    opcao = input("Escolha uma opcao: ")
+    opcao = input("Escolha uma opção: ")
 
     if opcao == "":
-        print("Digite uma opcao!")
+        print("Digite uma opção!")
 
     elif opcao == "1":
         listar_produtos()
@@ -236,4 +236,4 @@ while True:
         break
 
     else:
-        print("Opcao invalida!")
+        print("Opção inválida!")
