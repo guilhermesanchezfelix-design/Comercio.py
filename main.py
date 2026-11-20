@@ -21,15 +21,6 @@ print("Nome:", empresa["nome"])
 print("Ramo:", empresa["ramo"])
 print("Cidade:", empresa["cidade"])
 
-# Exibindo os produtos cadastrados
-print("\n===== PRODUTOS CADASTRADOS =====")
-
-for produto in produtos:
-    print("Nome:", produto["nome"])
-    print("Preco: R$", produto["preco"])
-    print("Quantidade:", produto["quantidade"])
-    print("------------------------------")
-
 # ==========================================
 # ETAPA 2 - MATRIZ DO ESTOQUE
 # RESPONSAVEL: WILLIAN BRYAN
@@ -43,11 +34,6 @@ matriz_estoque = [
     ["Acessorios", "Mousepad", "Vazio"]
 ]
 
-print("===== ORGANIZACAO DO ESTOQUE =====")
-
-for setor in matriz_estoque:
-    print(setor)
-
 def ler_produtos_csv():
     produtos_csv = []
     with open("dados.csv", "r", encoding="utf8") as arquivo:
@@ -59,11 +45,89 @@ def ler_produtos_csv():
             produtos_csv.append({
                 "nome": nome.strip(),
                 "preco": float(preco),
-                "quantidade": float(quantidade)
+                "quantidade": int(quantidade)
             })
             linha = arquivo.readline()
 
     return produtos_csv
+
+
+def salvar_produtos_csv(produtos_csv):
+    with open("dados.csv", "w", encoding="utf8") as arquivo:
+        arquivo.write("produtos, preço, quantidade\n")
+        for produto in produtos_csv:
+            arquivo.write(
+                produto["nome"] + ", " +
+                str(produto["preco"]) + ", " +
+                str(produto["quantidade"]) + "\n"
+            )
+
+
+def registrar_venda():
+    produtos_csv = ler_produtos_csv()
+    for produto in produtos_csv:
+        if produto["quantidade"] < 5:
+            print("Aviso: baixa quantidade em estoque para", produto["nome"])
+
+    nome = input("Digite o nome do produto vendido: ").strip()
+
+    produto_encontrado = None
+    for produto in produtos_csv:
+        if produto["nome"].lower() == nome.lower():
+            produto_encontrado = produto
+            break
+
+    if produto_encontrado is None:
+        print("Erro: produto nao encontrado. Digite um nome de produto valido.")
+        return
+
+    try:
+        quantidade_vendida = int(input("Digite a quantidade vendida: "))
+        if quantidade_vendida <= 0:
+            raise ValueError
+    except ValueError:
+        print("Erro: digite uma quantidade vendida valida.")
+        return
+
+    if quantidade_vendida > produto_encontrado["quantidade"]:
+        print("Aviso: venda maior que o estoque. A quantidade ficara em zero.")
+
+    quantidade_anterior = produto_encontrado["quantidade"]
+    produto_encontrado["quantidade"] = max(
+        0, produto_encontrado["quantidade"] - quantidade_vendida
+    )
+    salvar_produtos_csv(produtos_csv)
+    print("Venda registrada. Estoque atualizado.")
+
+    if quantidade_anterior >= 5 and produto_encontrado["quantidade"] < 5:
+        print("Aviso: baixa quantidade em estoque para", produto_encontrado["nome"])
+
+
+def adicionar_estoque():
+    produtos_csv = ler_produtos_csv()
+    nome = input("Digite o nome do produto: ").strip()
+
+    produto_encontrado = None
+    for produto in produtos_csv:
+        if produto["nome"].lower() == nome.lower():
+            produto_encontrado = produto
+            break
+
+    if produto_encontrado is None:
+        print("Erro: produto nao encontrado. Digite um nome de produto valido.")
+        return
+
+    try:
+        quantidade_adicionada = int(input("Digite a quantidade adicionada: "))
+        if quantidade_adicionada <= 0:
+            raise ValueError
+    except ValueError:
+        print("Erro: digite uma quantidade adicionada valida.")
+        return
+
+    produto_encontrado["quantidade"] += quantidade_adicionada
+    salvar_produtos_csv(produtos_csv)
+    print("Quantidade adicionada. Estoque atualizado.")
 
 
 def listar_produtos():
@@ -73,6 +137,10 @@ def listar_produtos():
         print("Nome:", produto["nome"])
         print("Preco: R$", produto["preco"])
         print("Quantidade:", produto["quantidade"])
+        if produto["quantidade"] <= 0:
+            print("⚠️ Aviso: produto sem estoque.")
+        elif produto["quantidade"] <= 5:
+            print("⚠️ Aviso: produto com baixa quantidade no estoque.")
         print("-------------------")
 
 
@@ -80,10 +148,6 @@ def mostrar_painel_consolidado():
     produtos_csv = ler_produtos_csv()
     valor_total = 0
 
-    # Usa os dados da empresa definidos anteriormente no projeto.
-    print("\n===== PAINEL CONSOLIDADO -", empresa["nome"], "=====")
-    print("Ramo:", empresa["ramo"])
-    print("Cidade:", empresa["cidade"])
     print("\nPRODUTOS EM ESTOQUE")
     print("Produto | Quantidade | Preco unitario | Valor em estoque")
 
@@ -120,9 +184,10 @@ def mostrar_matriz():
 while True:
     print("\n===== ELETROMAX =====")
     print("1 - Listar produtos")
-    print("2 - Mostrar matriz")
-    print("3 - Painel consolidado")
-    print("4 - Sair")
+    print("2 - Painel consolidado")
+    print("3 - Registrar venda")
+    print("4 - Adicionar quantidade ao estoque")
+    print("5 - Sair")
 
     opcao = input("Escolha uma opcao: ")
 
@@ -133,12 +198,15 @@ while True:
         listar_produtos()
 
     elif opcao == "2":
-        mostrar_matriz()
-
-    elif opcao == "3":
         mostrar_painel_consolidado()
 
+    elif opcao == "3":
+        registrar_venda()
+
     elif opcao == "4":
+        adicionar_estoque()
+
+    elif opcao == "5":
         print("Saindo do sistema...")
         break
 
