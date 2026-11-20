@@ -63,16 +63,36 @@ def salvar_produtos_csv(produtos_csv):
             )
 
 
+def listar_produtos_alteraveis(produtos_csv, apenas_com_estoque=False):
+    produtos_alteraveis = [
+        produto for produto in produtos_csv
+        if not apenas_com_estoque or produto["quantidade"] > 0
+    ]
+
+    print("\n===== PRODUTOS DISPONIVEIS =====")
+    for produto in produtos_alteraveis:
+        print(produto["nome"], "- Quantidade:", produto["quantidade"])
+
+    return produtos_alteraveis
+
+
 def registrar_venda():
     produtos_csv = ler_produtos_csv()
-    for produto in produtos_csv:
+    produtos_com_estoque = listar_produtos_alteraveis(
+        produtos_csv, apenas_com_estoque=True
+    )
+    if not produtos_com_estoque:
+        print("Nao ha produtos com estoque para registrar uma venda.")
+        return
+
+    for produto in produtos_com_estoque:
         if produto["quantidade"] < 5:
             print("Aviso: baixa quantidade em estoque para", produto["nome"])
 
     nome = input("Digite o nome do produto vendido: ").strip()
 
     produto_encontrado = None
-    for produto in produtos_csv:
+    for produto in produtos_com_estoque:
         if produto["nome"].lower() == nome.lower():
             produto_encontrado = produto
             break
@@ -105,10 +125,15 @@ def registrar_venda():
 
 def adicionar_estoque():
     produtos_csv = ler_produtos_csv()
+    produtos_alteraveis = listar_produtos_alteraveis(produtos_csv)
+    if not produtos_alteraveis:
+        print("Nao ha produtos cadastrados para adicionar estoque.")
+        return
+
     nome = input("Digite o nome do produto: ").strip()
 
     produto_encontrado = None
-    for produto in produtos_csv:
+    for produto in produtos_alteraveis:
         if produto["nome"].lower() == nome.lower():
             produto_encontrado = produto
             break
